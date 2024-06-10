@@ -1,0 +1,13 @@
+- A ideia da IA na implementação da solução do tema proposto foi razoavel. Acredito que algumas ideias dela são necessarias realmente como por exemplo a necessidade de facilitar o uso, a de transparência
+e a de calcular as doações.
+
+- Contudo a propria IA não mostrou como isso deve ser feito o que pode ser visto como uma falha. 
+
+- Outra coisa são implementações desnecessarias como a de OBSERVAÇÃO na parte de recebimento de doações visto que é o necessario era apenas salvar/notificar que a doação foi feita,
+e ressaltar alguma coisa não é necessario.
+
+- Outra implementação que a IA poderia ter realizado é na parte de Visualização dos dados (2) onde a parte de filtrar informações ficou pouco completa,
+visto que deveria ser possivel filtrar as doações por data e como foi realizada e não só pelo valor.
+
+- Como foi feito para ser intuitivo acredito que a IA indicou muitas informações que possam deixar o site poluido, como por exemplo a ideia de por as doações em gráficos para mostrar quanto de cada tipo,
+foi doado. Acredito sim que é uma boa ideia mas para não deixar o site com muita informação apenas o número de doações deve ser suficiente.
