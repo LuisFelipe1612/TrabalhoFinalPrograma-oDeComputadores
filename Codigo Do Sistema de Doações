@@ -1,0 +1,111 @@
+import java.util.Date;
+
+public class Doacao {
+    private String tipo;
+    private int quantidade;
+    private Date data;
+
+    public Doacao(String tipo, int quantidade, Date data) {
+        this.tipo = tipo;
+        this.quantidade = quantidade;
+        this.data = data;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class Gerenciador {
+    private List<Doacao> doacoes;
+
+    public Gerenciador() {
+        this.doacoes = new ArrayList<>();
+    }
+
+    public void receberDoacao(String tipo, int quantidade, Date data) {
+        Doacao novaDoacao = new Doacao(tipo, quantidade, data);
+        doacoes.add(novaDoacao);
+    }
+
+    public List<Doacao> getDoacoes() {
+        return doacoes;
+    }
+
+    public double calcularTotalDoacoes() {
+        double total = 0;
+        for (Doacao doacao : doacoes) {
+            total += doacao.getQuantidade();
+        }
+        return total;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Date;
+
+public class Sistema {
+    public static void main(String[] args) {
+        Gerenciador gerenciador = new Gerenciador();
+        gerenciador.receberDoacao("Alimentos", 10, new Date());
+        gerenciador.receberDoacao("Roupas", 20, new Date());
+
+        double total = gerenciador.calcularTotalDoacoes();
+        System.out.println("Total de doações: " + total);
+
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:doacoes.db");
+            conn.createStatement().execute(
+                    "CREATE TABLE IF NOT EXISTS doacoes (" +
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "tipo TEXT," +
+                            "quantidade INTEGER," +
+                            "data DATE)"
+            );
+
+            for (Doacao doacao : gerenciador.getDoacoes()) {
+                conn.createStatement().execute(
+                        "INSERT INTO doacoes (tipo, quantidade, data) VALUES (" +
+                                "'" + doacao.getTipo() + "', " +
+                                doacao.getQuantidade() + ", " +
+                                "'" + new java.sql.Date(doacao.getData().getTime()) + "')"
+                );
+            }
+
+            conn.close();
+            System.out.println("Dados das doações armazenados no banco de dados.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
